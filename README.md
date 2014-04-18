@@ -8,11 +8,11 @@ INSTRUCTIONS:
  but you can use your storage to keep extension data.
  Therefore you need to implement some functions with requests to your storage.
  
- '/chrome/cozy_reddit_persistence.js' file presents a stub for functions, which you need to implement.
+ '/chrome/cozy_reddit_persistence.js' (Chrome) and '/firefox/data/cozy_reddit_persistence.js' (Firefox) files present a stub for functions, which you need to implement.
  For each function, a detailed description has been written.
  
  As storage you can use eg.: parse.com, firebase.com or some other.
  
 NOTE:
 ---
- If you want to use any additional scripts, you should add them to [manifest.json]
+ If you want to use any additional scripts, you should add them to 'manifest.json' (Chrome) and 'main.js' (Firefox)
