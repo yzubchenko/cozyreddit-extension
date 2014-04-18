@@ -1,0 +1,34 @@
+{
+    "name": "cozyreddit-moz",
+    "title": "Cozy Reddit",
+    "id": "cozy-reddit@A9BF6F35-5CCE-4B1D-AF11-43ABE5B2B0CC",
+    "description": "Improves Reddit usability and highlights new comments (with sync between machines)",
+    "author": "Yury Zubchenko",
+    "license": "GPL v3",
+    "version": "1.1.1",
+
+    "icon": "icon.png",
+    "icon64": "icon64.png",
+
+    "preferences": [
+        {
+            "name": "new_comment_background_color",
+            "title": "New comments background color",
+            "type": "color",
+            "value": "#f6efd2"
+        },
+        {
+            "name": "new_comment_number_color",
+            "title": "New comments number color:",
+            "type": "color",
+            "value": "#008000"
+        },
+        {
+            "name": "nav_buttons_enabled",
+            "title": "New comment navigation arrows enabled",
+            "type": "bool",
+            "value": true
+        }
+
+    ]
+}
