@@ -18,28 +18,30 @@
  *
  * mailto: <yury.zubchenko@gmail.com>
  */
-if (localStorage.getItem("new_comment_background_color") === null){
-    localStorage.setItem("new_comment_background_color", "#f6efd2");
-}
+var CozyReddit = CozyReddit || {};
 
-if (localStorage.getItem("new_comment_number_color") === null){
-    localStorage.setItem("new_comment_number_color", "#008000");
-}
-if (localStorage.getItem("nav_buttons_enabled") === null){
-    localStorage.setItem("nav_buttons_enabled", true);
-}
+CozyReddit.OptionsBrowserContext = (function() {
+    var module = {};
 
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    if (request.method == "getLocalStorage") {
-        var i, data;
-        if (request.keys) {
-            data = new Array(request.keys.length);
-            for (i = 0; i < request.keys.length; i++) {
-                data[i] = localStorage[request.keys[i]];
-            }
-            sendResponse({data: data});
+    module.init = function() {
+        self.port.on('onGetLocalStorageItem', function(message) {
+            module.localStorage.localStorageGetMap[message.request](message);
+            module.localStorage.localStorageGetMap[message.request] = null;
+        });
+    };
+
+    module.localStorage = {
+        localStorageGetMap : {},
+        get : function (keys, callback) {
+            this.localStorageGetMap[keys] = callback;
+            self.port.emit("getLocalStorageItem", {keys: keys});
+        },
+        set : function (key, value) {
+            self.port.emit("setLocalStorageItem", {key: key, value: value});
         }
-    } else {
-        sendResponse({});
-    }
-});
+    };
+
+    return module;
+}());
+
+CozyReddit.OptionsBrowserContext.init();

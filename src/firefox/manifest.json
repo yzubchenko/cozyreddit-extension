@@ -1,0 +1,23 @@
+{
+    "name": "cozyreddit-moz",
+    "title": "Cozy Reddit",
+    "id": "cozy-reddit@A9BF6F35-5CCE-4B1D-AF11-43ABE5B2B0CC",
+    "description": "Improves Reddit usability and highlights new comments (with sync between machines)",
+    "author": "Yury Zubchenko",
+    "license": "GPL v3",
+    "version": "1.4.0",
+
+    "icon": "icon48.png",
+    "icon64": "icon64.png",
+
+    "preferences": [
+        {
+            "type": "control",
+            "label": "Options page",
+            "name": "optionsButton",
+            "title": "Open options page"
+        }
+
+
+    ]
+}

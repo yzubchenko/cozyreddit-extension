@@ -18,28 +18,29 @@
  *
  * mailto: <yury.zubchenko@gmail.com>
  */
-if (localStorage.getItem("new_comment_background_color") === null){
-    localStorage.setItem("new_comment_background_color", "#f6efd2");
-}
+var CozyReddit = CozyReddit || {};
 
-if (localStorage.getItem("new_comment_number_color") === null){
-    localStorage.setItem("new_comment_number_color", "#008000");
-}
-if (localStorage.getItem("nav_buttons_enabled") === null){
-    localStorage.setItem("nav_buttons_enabled", true);
-}
+CozyReddit.OptionsBrowserContext = (function() {
+    var module = {};
 
-chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
-    if (request.method == "getLocalStorage") {
-        var i, data;
-        if (request.keys) {
-            data = new Array(request.keys.length);
-            for (i = 0; i < request.keys.length; i++) {
-                data[i] = localStorage[request.keys[i]];
+    module.localStorage = {
+        get : function (keys, onResponse) {
+            var i, data;
+            if (keys) {
+                data = new Array(keys.length);
+                for (i = 0; i < keys.length; i++) {
+                    data[i] = localStorage[keys[i]];
+                }
+                onResponse({data: data});
             }
-            sendResponse({data: data});
+        },
+
+        set : function (key, value) {
+            if (key) {
+                localStorage.setItem(key, value);
+            }
         }
-    } else {
-        sendResponse({});
-    }
-});
+    };
+
+    return module;
+}());

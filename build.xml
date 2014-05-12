@@ -1,0 +1,103 @@
+<project name="Cozy Reddit" default="dist-all" basedir=".">
+    <!-- set global properties -->
+
+    <property name="version" value="1.4.0"/>
+    <property name="src.dir" value="src"/>
+    <property name="src.common.dir" value="${src.dir}/common"/>
+    <property name="src.chrome.dir" value="${src.dir}/chrome"/>
+    <property name="src.firefox.dir" value="${src.dir}/firefox"/>
+
+    <property name="build.dir" value="build/${version}"/>
+    <property name="build.chrome.dir" value="build/${version}/chrome"/>
+    <property name="build.chrome.src.dir" value="${build.chrome.dir}/src"/>
+    
+    <property name="build.firefox.dir" value="build/${version}/firefox"/>
+    <property name="build.firefox.src.dir" value="${build.firefox.dir}/src"/>
+
+    <property name="firefox.xpi.location" location="firefox-xpi.bat"/>
+    <property name="build.firefox.location" location="build/${version}/firefox"/>
+    <property name="build.firefox.src.location" location="${build.firefox.dir}/src"/>
+
+    <target name="init">
+        <delete dir="${build.dir}"/>
+        <mkdir dir="${build.dir}"/>
+    </target>
+
+
+    <!-- COMPILE -->
+    <target name="compile-chrome" depends="init"
+            description="compile the chrome source" >
+        <mkdir dir="${build.chrome.src.dir}/background"/>
+        <mkdir dir="${build.chrome.src.dir}/content"/>
+        <mkdir dir="${build.chrome.src.dir}/options"/>
+        <mkdir dir="${build.chrome.src.dir}/res/img"/>
+        <mkdir dir="${build.chrome.src.dir}/res/json"/>
+
+        <copy file="${src.chrome.dir}/background.js" todir="${build.chrome.src.dir}/background" />
+        <copy todir="${build.chrome.src.dir}/content">
+            <fileset dir="${src.common.dir}/js"/>
+        </copy>
+        <copy file="${src.chrome.dir}/browser_context.js" todir="${build.chrome.src.dir}/content" />
+        <copy todir="${build.chrome.src.dir}/options">
+            <fileset dir="${src.chrome.dir}/options"/>
+        </copy>
+        <copy todir="${build.chrome.src.dir}/options">
+            <fileset dir="${src.common.dir}/options"/>
+        </copy>
+        <copy todir="${build.chrome.src.dir}/res">
+            <fileset dir="${src.common.dir}/res"/>
+        </copy>
+        <copy file="${src.chrome.dir}/manifest.json" todir="${build.chrome.src.dir}" />
+    </target>
+
+
+    <target name="compile-firefox" depends="init"
+            description="compile the firefox source" >
+        <mkdir dir="${build.firefox.src.dir}/data/res/img"/>
+        <mkdir dir="${build.firefox.src.dir}/data/res/json"/>
+        <mkdir dir="${build.firefox.src.dir}/lib"/>
+
+        <copy todir="${build.firefox.src.dir}/data">
+            <fileset dir="${src.common.dir}/js"/>
+        </copy>
+        <copy file="${src.firefox.dir}/browser_context.js" todir="${build.firefox.src.dir}/data" />
+        <copy todir="${build.firefox.src.dir}/data/res">
+            <fileset dir="${src.common.dir}/res"/>
+        </copy>
+        <copy todir="${build.firefox.src.dir}/data/options">
+            <fileset dir="${src.firefox.dir}/options"/>
+        </copy>
+        <copy todir="${build.firefox.src.dir}/data/options">
+            <fileset dir="${src.common.dir}/options"/>
+        </copy>
+        <copy file="${src.firefox.dir}/background.js" tofile="${build.firefox.src.dir}/lib/main.js" />
+        <copy file="${src.common.dir}/res/img/icon48.png" todir="${build.firefox.src.dir}" />
+        <copy file="${src.common.dir}/res/img/icon64.png" todir="${build.firefox.src.dir}" />
+        <copy file="${src.firefox.dir}/manifest.json" tofile="${build.firefox.src.dir}/package.json" />
+    </target>
+
+    <!-- DIST -->
+    <target name="dist-chrome" depends="compile-chrome"
+            description="make chrome dist" >
+        <zip destfile="${build.chrome.dir}/cozy-reddit--chrome-${version}.zip"
+             basedir="${build.chrome.src.dir}"
+                />
+    </target>
+
+    <target name="dist-firefox" depends="compile-firefox"
+            description="make firefox dist" >
+        <exec executable="${firefox.xpi.location}">
+            <arg value="${addon.sdk.activate}"/>
+            <arg value="${build.firefox.src.location}"/>
+            <arg value="${build.firefox.location}"/>
+            <arg value="cozy-reddit-firefox-${version}.xpi"/>
+        </exec>
+    </target>
+
+    <target name="dist-all" depends="dist-chrome, dist-firefox"
+            description="make all dist" >
+    </target>
+
+
+
+</project>

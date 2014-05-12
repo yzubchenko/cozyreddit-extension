@@ -4,9 +4,13 @@
  * By Binny V A
  * License : BSD
  */
-CozyRedditShortcut = {
-	'all_shortcuts':{},//All the shortcuts are stored in this array
-	'add': function(shortcut_combination,callback,opt) {
+var CozyReddit = CozyReddit || {};
+
+CozyReddit.Shortcut = (function() {
+	var module = {},
+        all_shortcuts ={};
+
+	module.add = function(shortcut_combination,callback,opt) {
 		//Provide a set of default options
 		var default_options = {
 			'type':'keydown',
@@ -14,7 +18,7 @@ CozyRedditShortcut = {
 			'disable_in_input':false,
 			'target':document,
 			'keycode':false
-		}
+		};
 		if(!opt) opt = default_options;
 		else {
 			for(var dfo in default_options) {
@@ -24,7 +28,6 @@ CozyRedditShortcut = {
 
 		var ele = opt.target;
 		if(typeof opt.target == 'string') ele = document.getElementById(opt.target);
-		var ths = this;
 		shortcut_combination = shortcut_combination.toLowerCase();
 
 		//The function to be called at keypress
@@ -73,7 +76,7 @@ CozyRedditShortcut = {
 				".":">",
 				"/":"?",
 				"\\":"|"
-			}
+			};
 			//Special Keys - and their codes
 			var special_keys = {
 				'esc':27,
@@ -127,7 +130,7 @@ CozyRedditShortcut = {
 				'f10':121,
 				'f11':122,
 				'f12':123
-			}
+			};
 	
 			var modifiers = { 
 				shift: { wanted:false, pressed:false},
@@ -194,8 +197,8 @@ CozyRedditShortcut = {
 					return false;
 				}
 			}
-		}
-		this.all_shortcuts[shortcut_combination] = {
+		};
+		all_shortcuts[shortcut_combination] = {
 			'callback':func, 
 			'target':ele, 
 			'event': opt['type']
@@ -204,13 +207,12 @@ CozyRedditShortcut = {
 		if(ele.addEventListener) ele.addEventListener(opt['type'], func, false);
 		else if(ele.attachEvent) ele.attachEvent('on'+opt['type'], func);
 		else ele['on'+opt['type']] = func;
-	},
+	};
 
-	//Remove the CozyRedditShortcut - just specify the CozyRedditShortcut and I will remove the binding
-	'remove':function(shortcut_combination) {
+	module.remove = function(shortcut_combination) {
 		shortcut_combination = shortcut_combination.toLowerCase();
-		var binding = this.all_shortcuts[shortcut_combination];
-		delete(this.all_shortcuts[shortcut_combination])
+		var binding = all_shortcuts[shortcut_combination];
+		delete(all_shortcuts[shortcut_combination]);
 		if(!binding) return;
 		var type = binding['event'];
 		var ele = binding['target'];
@@ -219,5 +221,7 @@ CozyRedditShortcut = {
 		if(ele.detachEvent) ele.detachEvent('on'+type, callback);
 		else if(ele.removeEventListener) ele.removeEventListener(type, callback, false);
 		else ele['on'+type] = false;
-	}
-}
+	};
+
+    return module;
+}());

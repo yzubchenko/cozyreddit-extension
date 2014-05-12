@@ -1,0 +1,61 @@
+#main-container {
+    width:500px;
+    margin:0 auto;
+}
+
+#main-inner {
+    padding: 50px;
+    background-color: #333;
+    width: 500px;
+    box-shadow: 7px 7px 5px 0 rgba(50, 50, 50, 0.75);
+    border-radius: 30px;
+    font-family: sans-serif;
+    color: lightgray;
+    text-shadow: 1px 1px #000, -1px -1px #000;
+}
+
+#header-img {
+    padding-bottom: 12px;
+    vertical-align:middle;
+}
+
+#header-text {
+    display: inline-block;
+}
+
+#options-table {
+    width: 100%;
+}
+
+.options-row {
+    height: 45px;
+}
+
+.single-input {
+    width: 100%;
+}
+
+.button-small, .button-large, .button-submit {
+    border-radius: 5px;
+    outline:none;
+
+}
+.button-large, .button-small {
+    background-color: #fff;
+    border-color: #fff;
+}
+.button-large, .button-submit {
+     padding: 5px 10px 5px 10px;
+     font-weight: bold;
+}
+
+.button-small {
+    padding-top: 0;
+    padding-bottom: 0;
+
+}
+
+.button-submit {
+    background-color: #57db7c;
+    border-color: #65ff90;
+}

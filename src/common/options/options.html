@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cozy Reddit Options</title>
+    <link rel="stylesheet" href="options.css">
+    <script type="text/javascript" src="jscolor/jscolor.js"></script>
+
+</head>
+<style>
+</style>
+<body>
+<div id="main-container" align="center">
+    <div id="main-inner" align="left">
+        <img id="header-img" src="icon64.png"/>
+
+        <h1 id="header-text">Cozy Reddit Options</h1>
+        <table id="options-table">
+            <tbody valign="baseline">
+            <tr class="options-row">
+                <td>
+                    <label for="new_comment_background_color">Highlighting color of new comments: </label>
+                </td>
+                <td>
+                    <input id="new_comment_background_color"
+                           class="color {hash:true, pickerFaceColor:'#fff',pickerFace:5,pickerBorder:1,pickerInsetColor:'black'} single-input"
+                            />
+                </td>
+            </tr>
+
+            <tr class="options-row">
+                <td>
+                    <label for="new_comment_style">Highlighting style of new comments: </label>
+                </td>
+                <td>
+                    <select id="new_comment_style" class="single-input">
+                        <option value="solid" selected>solid fill</option>
+                        <option value="line">line on the left</option>
+                    </select>
+                </td>
+            </tr>
+
+            <tr class="options-row">
+                <td>
+                    <label for="new_comment_number_color">Color of the counter of new comments: </label>
+                </td>
+                <td>
+                    <input id="new_comment_number_color"
+                           class="color {hash:true, pickerFaceColor:'#fff',pickerFace:5,pickerBorder:1,pickerInsetColor:'black'} single-input"
+                            />
+                </td>
+            </tr>
+
+
+            <tr class="options-row">
+                <td>
+                    <label for="nav_buttons_enabled">Enable new comment navigation arrows: </label>
+                </td>
+                <td>
+                    <input id="nav_buttons_enabled" type="checkbox"/>
+                </td>
+            </tr>
+
+            </tbody>
+        </table>
+        <div align="right">
+            <button id="reset_button"
+                    class="button-large">
+                Reset defaults
+            </button>
+            <button id="save_button"
+                    class="button-submit">
+                Save changes
+            </button>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="options_browser_context.js"></script>
+<script src="options.js"></script>
+</body>
+</html>

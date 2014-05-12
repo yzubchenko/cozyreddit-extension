@@ -1,0 +1,34 @@
+{
+    "manifest_version": 2,
+    "name": "Cozy Reddit",
+    "description": "Improves Reddit usability and highlights new comments (with sync between machines)",
+    "version": "1.4.0",
+    "author": "Yury Zubchenko",
+
+    "background": {
+        "scripts": [ "/background/background.js" ]
+    },
+
+    "options_page": "/options/options.html",
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "web_accessible_resources": [
+        "/res/img/*.png",
+        "/res/json/*.json"
+    ],
+    "content_scripts": [ {
+        "js": [
+            "/content/browser_context.js",
+            "/content/persistence.js",
+            "/content/shortcut.js",
+            "/content/widgets.js",
+            "/content/main.js"
+        ],
+        "matches": [ "*://*.reddit.com/*" ]
+    } ],
+
+    "icons": {
+        "128": "/res/img/icon128.png",
+        "512": "/res/img/icon512.png"
+    }
+
+}
