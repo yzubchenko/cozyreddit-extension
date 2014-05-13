@@ -81,19 +81,19 @@ CozyReddit.Widgets = (function() {
         var updateHeaderElem = document.createElement('p');
         updateHeaderElem.setAttribute("id", "cozy-update-header");
         updateHeaderElem.setAttribute("style", "font: bold 20px 'Courier new'; line-height: 20px;");
-        updateHeaderElem.innerHTML = "Cozy Reddit updated!";
+        updateHeaderElem.textContent = "Cozy Reddit updated!";
         updateElem.appendChild(updateHeaderElem);
 
         var updateSubHeaderElem = document.createElement('p');
         updateSubHeaderElem.setAttribute("id", "cozy-update-subheader");
         updateSubHeaderElem.setAttribute("style", "font: 15px 'Courier new'; line-height: 40px;");
-        updateSubHeaderElem.innerHTML = "version: " + update.version;
+        updateSubHeaderElem.textContent = "version: " + update.version;
         updateElem.appendChild(updateSubHeaderElem);
 
         var updateSubSubHeaderElem = document.createElement('p');
         updateSubSubHeaderElem.setAttribute("id", "cozy-update-subsubheader");
         updateSubSubHeaderElem.setAttribute("style", "font: bold 15px 'Courier new'; line-height: 20px;");
-        updateSubSubHeaderElem.innerHTML = "What's new: ";
+        updateSubSubHeaderElem.textContent = "What's new: ";
         updateElem.appendChild(updateSubSubHeaderElem);
 
         var updateTextAreaElem = document.createElement('textarea');
@@ -111,7 +111,7 @@ CozyReddit.Widgets = (function() {
         closeElem.setAttribute("style",
             "position: absolute; right: 5px; top: 5px; font: 15px 'Courier new'; color: #0000ff; cursor: pointer;"
         );
-        closeElem.innerHTML = "[close]";
+        closeElem.textContent = "[close]";
         closeElem.addEventListener('click', function() {
             updateElem.remove();
         });

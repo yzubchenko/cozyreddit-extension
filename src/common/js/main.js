@@ -86,7 +86,7 @@ CozyReddit.Main = (function(Persistence, Widgets, Shortcut, BrowserContext) {
     function acquireUserName () {
         var redditUserElem = document.getElementsByClassName('user')[0];
         if (!redditUserElem.getElementsByClassName('login-required').length) {
-            redditUserName = redditUserElem.getElementsByTagName('a')[0].innerHTML;
+            redditUserName = redditUserElem.getElementsByTagName('a')[0].textContent;
             return true;
         }
         return false;
@@ -151,7 +151,7 @@ CozyReddit.Main = (function(Persistence, Widgets, Shortcut, BrowserContext) {
         var thing = document.getElementById('siteTable').getElementsByClassName('thing')[0].classList;
         var postId = thing.toString().match(/_(.*?) /)[1];
         Persistence.requestPostLastUpdate('cc-' + postId, function (postLastUpdate) {
-            var commentCount = parseInt(document.getElementsByClassName('comments')[0].innerHTML.split(' ')[0]) || 0;
+            var commentCount = parseInt(document.getElementsByClassName('comments')[0].textContent.split(' ')[0]) || 0;
             var commentElems = document.getElementsByClassName('comment');
             var commentIdx, commentElem, commentTimeElem, postLastUpdateTime, commentTime;
             var postLastUpdateCount = 0;
@@ -299,7 +299,7 @@ CozyReddit.Main = (function(Persistence, Widgets, Shortcut, BrowserContext) {
     function updateKnownPostComments (knownPosts, postIdArr, commentsElemList) {
         if (knownPosts) {
             var updatedCommentsElems = new Array(knownPosts.length);
-            var commentsInnerText, commentsInnerSplit, commentsCount, newCommentsCount;
+            var commentsTextContent, commentsInnerSplit, commentsCount, newCommentsCount;
             var postIdx;
             for (postIdx = 0; postIdx < knownPosts.length; postIdx++) {
                 var postId = knownPosts[postIdx][0];
@@ -307,22 +307,26 @@ CozyReddit.Main = (function(Persistence, Widgets, Shortcut, BrowserContext) {
                 var idx = postIdArr.indexOf(postId);
                 var commentsElem = commentsElemList[idx];
 
-                commentsInnerText = commentsElem.innerHTML;
-                commentsInnerSplit = commentsInnerText.split(' ');
+                commentsTextContent = commentsElem.textContent;
+                commentsInnerSplit = commentsTextContent.split(' ');
                 commentsCount = commentsInnerSplit.length == 2 ? commentsInnerSplit[0] : 0;
                 newCommentsCount = '';
                 if (commentsCount > 0) {
                     if (postLastUpdate) {
                         var diff = (commentsCount - postLastUpdate.split(',')[1]);
                         if (diff > 0) {
-                            newCommentsCount = '(' + diff + '&nbspnew)';
+                            newCommentsCount = ' (' + diff + ' new)';
                         }
                     } else {
-                        newCommentsCount = '(' + commentsCount + '&nbspnew)';
+                        newCommentsCount = ' (' + commentsCount + ' new)';
                     }
                 }
-                commentsElem.innerHTML =
-                    commentsInnerText + ' <span style="color:'+ newCommentNumberColor + ';">' + newCommentsCount + '</span>';
+
+                var unreadNumberSpan = document.createElement('span');
+                unreadNumberSpan.style.setProperty("color", newCommentNumberColor, "");
+                unreadNumberSpan.textContent = newCommentsCount;
+                commentsElem.appendChild(unreadNumberSpan);
+
                 updatedCommentsElems.push(commentsElem);
             }
         }
@@ -333,13 +337,15 @@ CozyReddit.Main = (function(Persistence, Widgets, Shortcut, BrowserContext) {
         var idx, commentsInnerText, commentsInnerSplit, commentsCount, newCommentsCount;
         for (idx = 0; idx < commentsElemList.length; idx++) {
             if (!updatedCommentsElemList || updatedCommentsElemList.indexOf(commentsElemList[idx]) < 0) {
-                commentsInnerText = commentsElemList[idx].innerHTML;
+                commentsInnerText = commentsElemList[idx].textContent;
                 commentsInnerSplit = commentsInnerText.split(' ');
                 commentsCount = commentsInnerSplit.length == 2 ? commentsInnerSplit[0] : 0;
                 if (commentsCount > 0) {
-                    newCommentsCount = '(' + commentsCount + '&nbspnew)';
-                    commentsElemList[idx].innerHTML =
-                        commentsInnerText + ' <span style="color:' + newCommentNumberColor + ';">' + newCommentsCount + '</span>';
+                    newCommentsCount = ' (' + commentsCount + ' new)';
+                    var unreadNumberSpan = document.createElement('span');
+                    unreadNumberSpan.style.setProperty("color", newCommentNumberColor, "");
+                    unreadNumberSpan.textContent = newCommentsCount;
+                    commentsElemList[idx].appendChild(unreadNumberSpan);
                 }
             }
         }
